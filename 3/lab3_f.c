@@ -1,21 +1,26 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<stdbool.h>
-void vstavka(int** a, int* n) 
+void safe_exit(int**a){
+if(*a == NULL){
+free(*a);
+*a = NULL;}
+exit(0);
+}
+}
+void vstavka(int** a, int* n, int k) 
 {
-	int k;
-	inputcheck_index_i(&k, *n);
 	int *t = realloc(*a, (*n+1)*sizeof(int));
 	if (t == NULL){
 		printf("Не удалось выделить память!\n");
 		return;
 	}
 	*a = t;
-	for (int i = *n; i > k; i--) {
+	for (int i = *n; i > *k; i--) {
 		(*a)[i] = (*a)[i - 1];
 	}
 	printf("Введите число:");
-	inputcheck_value(&(*a)[k]);
+	inputcheck_value(&(*a)[(k)]);
 	(*n)++;
 }
 void udalenie(int** a, int* n, int k) {
