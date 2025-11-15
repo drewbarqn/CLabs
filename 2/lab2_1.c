@@ -7,8 +7,21 @@ int inputcheckx(double *x);
 int main() {
   int n;
   double x;
+<<<<<<< HEAD
   inputcheckx(&x);
   inputcheckn(&n);
+=======
+  int m = inputcheckx(&x);
+  if (m == 0){
+  printf("Принудительное завершение\n");
+  return 0;
+  }
+  m = inputcheckn(&n);
+  if (m == 0){
+  printf("Принудительное завершение\n");
+  return 0;
+  }
+>>>>>>> 58e4756 (Сохранение текущих изменений перед pull)
   double f = sh(x, n);
   printf("Значение с помощью ряда: %.*lf\n", 15, f);
 
@@ -26,7 +39,12 @@ int inputcheckn(int *n) {
       return 0;
     }
     if (a == 1) {
+<<<<<<< HEAD
 	if (*n>0) break;
+=======
+      if (*n > 0)
+        break;
+>>>>>>> 58e4756 (Сохранение текущих изменений перед pull)
     }
     scanf("%*[^\n]");
     scanf("%*c");
