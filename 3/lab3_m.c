@@ -9,7 +9,6 @@ int main() {
   printf("Введите количество элементов: ");
   int n;
   inputcheck_n(&n);
-
   int *a = malloc(n * sizeof(int));
   if (a == NULL) {
     printf("Ошибка: не удалось выделить память.\n");
@@ -33,13 +32,16 @@ void menu(int **a, int *n) {
 
     char c;
     inputcheck_menu(&c);
+    if (inputcheck_menu(&c) == 0){
+    safe_exit(*a);
+    } 
     switch (c) {
     case 'a':
       printf("Введите элементы массива (целые числа):\n");
       for (int i = 0; i < *n; i++) {
        int m = inputcheck_value(&(*a)[i]);
        if (m == 0){
-	       free(*a);
+	       safe_exit(*a);
 	       return;
        }
       }
@@ -55,7 +57,7 @@ void menu(int **a, int *n) {
       int k;
       int m = inputcheck_index_d(&k, n);
       if (m == 0){
-      free(*a);
+      safe_exit(*a);
       return;
       }
       udalenie(a, n, k);

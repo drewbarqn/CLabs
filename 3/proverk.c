@@ -1,6 +1,13 @@
-#include<stdio.h>
-
-    int inputcheck_menu(char *n) {
+#include<stdio.h> 
+void safe_exit(int**a){
+	if(*a == NULL){
+		free(*a);
+		*a = NULL;
+	}
+	exit(0);
+}
+}
+int inputcheck_menu(char *n) {
   while (1) {
     int a = scanf(" %c", n);
     if (a == EOF) {
@@ -8,7 +15,7 @@
       return 0;
     }
     if (a == 1) {
-      if (*n == 'a' || *n == 'b' || *n == 'c' || *n == 'd' || *n == 'e') {
+      if (*n == 'a' || *n == 'b' || *n == 'c' || *n == 'd' || *n == 'e'|| *n == 'q') {
         int ch;
         while ((ch = getchar()) != '\n' && ch != EOF);
         break;
