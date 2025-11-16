@@ -1,6 +1,6 @@
 #include<stdio.h> 
 void safe_exit(int**a){
-	if(*a == NULL){
+	if(*a != NULL){
 		free(*a);
 		*a = NULL;
 	}
