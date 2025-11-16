@@ -31,9 +31,9 @@ void menu(int **a, int *n) {
     printf("(q) Выход\n");
 
     char c;
-    inputcheck_menu(&c);
-    if (inputcheck_menu(&c) == 0){
-    safe_exit(*a);
+    int u = inputcheck_menu(&c);
+    if (u == 0){
+    safe_exit(a);
     } 
     switch (c) {
     case 'a':
@@ -41,7 +41,7 @@ void menu(int **a, int *n) {
       for (int i = 0; i < *n; i++) {
        int m = inputcheck_value(&(*a)[i]);
        if (m == 0){
-	       safe_exit(*a);
+	       safe_exit(a);
 	       return;
        }
       }
@@ -49,7 +49,12 @@ void menu(int **a, int *n) {
 
     case 'b':
       printf("Введите индекс вставки\n");
-      vstavka(a, n);
+      int f;
+      int u = inputcheck_index_i(&f, n);
+      if (u == 0){
+      safe_exit(a);
+      }
+      vstavka(a, n, f);
       break;
 
     case 'c': 
@@ -57,7 +62,7 @@ void menu(int **a, int *n) {
       int k;
       int m = inputcheck_index_d(&k, n);
       if (m == 0){
-      safe_exit(*a);
+      safe_exit(a);
       return;
       }
       udalenie(a, n, k);

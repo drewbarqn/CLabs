@@ -2,10 +2,16 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include "proverk.h"
-    void vstavka(int **a, int *n) {
-  int k;
-  inputcheck_index_i(&k, n);
 
+void safe_exit(int**a){ 
+	if(*a != NULL){
+		free(*a); 
+		*a = NULL;
+	}
+	exit(0);
+}
+
+    void vstavka(int **a, int *n, int k) {
   int *t = realloc(*a, (*n + 1) * sizeof(int));
   if (t == NULL) {
     printf("Не удалось выделить память!\n");
@@ -18,9 +24,16 @@
   }
 
   printf("Введите число: ");
-  inputcheck_value(&(*a)[k]);
+  int u = inputcheck_value(&(*a)[k]);
+  if (u == 0){
+  (*n)--;
+  *a = realloc(*a, *n * sizeof(int));
+  return;
+  }
   (*n)++;
 }
+
+
 
 void udalenie(int **a, int *n, int k) {
   if (*n > 0) {
@@ -29,12 +42,17 @@ void udalenie(int **a, int *n, int k) {
     }
 
     (*n)--;
-    *a = realloc(*a, (*n) * sizeof(int));
+    int *t = realloc(*a, (*n) * sizeof(int));
+    if (t != NULL){
+    *a = t;
+    }
   } else {
     printf("Удаление невозможно\n");
     return;
   }
 }
+
+
 
 int *individ(int **a, int *n) {
   int k = 0;

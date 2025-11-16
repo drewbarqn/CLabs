@@ -1,12 +1,6 @@
-#include<stdio.h> 
-void safe_exit(int**a){
-	if(*a != NULL){
-		free(*a);
-		*a = NULL;
-	}
-	exit(0);
-}
-}
+#include<stdio.h>
+#include<stdlib.h>
+
 int inputcheck_menu(char *n) {
   while (1) {
     int a = scanf(" %c", n);
