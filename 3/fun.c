@@ -4,11 +4,10 @@
 #include "proverk.h"
 
 void safe_exit(int**a){ 
-	if(*a != NULL){
+	if(a && *a) {
 		free(*a); 
 		*a = NULL;
 	}
-	exit(0);
 }
 
     void vstavka(int **a, int *n, int k) {
@@ -33,6 +32,17 @@ void safe_exit(int**a){
   (*n)++;
 }
 
+void print_a (int** a, int* n){
+if (a == NULL || *a == NULL || *n <= 0){
+printf("Массив пуст\n");
+return;
+}
+printf("\nРезультат: ");
+for(int i = 0; i < *n; i++){
+printf("%d ", (*a)[i]);
+}
+printf("\n");
+}
 
 
 void udalenie(int **a, int *n, int k) {
@@ -40,57 +50,75 @@ void udalenie(int **a, int *n, int k) {
     for (int i = k; i < *n - 1; i++) {
       (*a)[i] = (*a)[i + 1];
     }
-
     (*n)--;
+    if (*n>0)
+    {
     int *t = realloc(*a, (*n) * sizeof(int));
-    if (t != NULL){
-    *a = t;
+        if (t != NULL)
+	{
+	*a = t;
+	}
     }
-  } else {
+
+    else 
+    {
+    free(*a);
+    *a = NULL;
+    }
+  }
+    else
+    {
     printf("Удаление невозможно\n");
     return;
-  }
+    }
 }
 
 
 
-int *individ(int **a, int *n) {
-  int k = 0;
-  int *b = malloc(*n * sizeof(int));
-
-  for (int i = 0; i < *n; i++) {
-    int x = (*a)[i];
-    bool flag = true;
-    int d = (x / 10) % 10 - x % 10;
-
-    while (x > 100) {
-      if ((x / 10) % 10 - x % 10 != d) {
-        flag = false;
-        break;
-      }
-      x /= 10;
+void individ(int **a, int *n)
+{
+    if (*n == 0 || *a == NULL) {
+        printf("Массив пуст\n");
+        return;
+    }
+    int *indices = malloc((*n) * sizeof(int));
+    if (!indices) {
+        printf("Ошибка памяти\n");
+        return;
     }
 
-    if (flag) {
-      int *t = realloc(b, (k + 1) * sizeof(int));
-      if (t == NULL) {
-        printf("Не удалось выделить память!\n");
-        free(b);
-        return NULL;
-      }
+    int count = 0;
+    for (int i = 0; i < *n; i++) {
+        int x = (*a)[i];
+        if (x < 0) x = -x;
 
-      b = t;
-      b[k] = (*a)[i];
-      udalenie(a, n, i);
-      k++;
-      i--;
+        bool flag = true;
+        if (x >= 100) {
+            int d = (x / 10) % 10 - x % 10;
+            int temp = x;
+            while (temp >= 100) {
+                temp /= 10;
+                if ((temp / 10) % 10 - temp % 10 != d) {
+                    flag = false;
+                    break;
+                }
+            }
+        }
+        if (flag)
+            indices[count++] = i;
     }
-  }
 
-  if (k > 0) {
-    return b;
-  } else {
-    free(b);
-    return NULL;
-  }
+    printf("Нужная последовательность:\n");
+    if (count == 0) {
+        printf("(нет подходящих чисел)\n");
+    } else {
+        for (int i = 0; i < count; i++)
+            printf("%d ", (*a)[indices[i]]);
+        printf("\n");
+    }
+
+     for (int i = count - 1; i >= 0; i--)
+        udalenie(a, n, indices[i]);
+
+    free(indices);
 }
