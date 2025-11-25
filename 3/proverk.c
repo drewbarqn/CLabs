@@ -5,8 +5,7 @@ int inputcheck_menu(char *n) {
   while (1) {
     int a = scanf(" %c", n);
     if (a == EOF) {
-      printf("\nEOF\n");
-      return 0;
+        return 0;
     }
     if (a == 1) {
       if (*n == 'a' || *n == 'b' || *n == 'c' || *n == 'd' || *n == 'e'|| *n == 'q') {
@@ -25,8 +24,7 @@ int inputcheck_menu(char *n) {
 int inputcheck_value(int *n) {
   while (1) {
     int a = scanf("%d", n);
-    if (a == EOF) {
-      printf("\nEOF\n");
+    if (a == EOF) { 
       return 0;
     }
     if (a == 1) {
@@ -43,7 +41,6 @@ int inputcheck_index_i(int *index, int *n) {
   while (1) {
     int a = scanf("%d", index);
     if (a == EOF) {
-      printf("\nEOF\n");
       return 0;
     }
     if (a == 1) {
@@ -66,7 +63,6 @@ int inputcheck_index_d(int *index, int *n) {
   while (1) {
     int a = scanf("%d", index);
     if (a == EOF) {
-      printf("\nEOF\n");
       return 0;
     }
     if (a == 1) {
@@ -84,8 +80,7 @@ int inputcheck_n(int *n) {
   while (1) {
     int a = scanf("%d", n);
     if (a == EOF) {
-      printf("\nEOF\n");
-      exit(0);
+      return 0;
     }
     if (a == 1 && *n > 0) {
       break;

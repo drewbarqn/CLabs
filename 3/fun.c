@@ -11,26 +11,29 @@ void safe_exit(int**a){
 }
 
     void vstavka(int **a, int *n, int k) {
-  int *t = realloc(*a, (*n + 1) * sizeof(int));
+   printf("Введите число: ");
+     int value;
+
+     if (!inputcheck_value(&value)){
+     printf("Вставка отменена\n");
+     return;
+     }
+
+     int *t = realloc(*a, (*n + 1) * sizeof(int));
+
   if (t == NULL) {
     printf("Не удалось выделить память!\n");
-    return;
+    return; 
   }
 
   *a = t;
   for (int i = *n; i > k; i--) {
     (*a)[i] = (*a)[i - 1];
-  }
-
-  printf("Введите число: ");
-  int u = inputcheck_value(&(*a)[k]);
-  if (u == 0){
-  (*n)--;
-  *a = realloc(*a, *n * sizeof(int));
-  return;
-  }
+ }
+ (*a)[k] = value;
   (*n)++;
 }
+
 
 void print_a (int** a, int* n){
 if (a == NULL || *a == NULL || *n <= 0){
@@ -65,12 +68,7 @@ void udalenie(int **a, int *n, int k) {
     free(*a);
     *a = NULL;
     }
-  }
-    else
-    {
-    printf("Удаление невозможно\n");
-    return;
-    }
+  } 
 }
 
 
@@ -81,14 +79,17 @@ void individ(int **a, int *n)
         printf("Массив пуст\n");
         return;
     }
-    int *indices = malloc((*n) * sizeof(int));
-    if (!indices) {
+    int *b = malloc((*n) * sizeof(int));
+    if (b == NULL) {
         printf("Ошибка памяти\n");
         return;
     }
-
-    int count = 0;
-    for (int i = 0; i < *n; i++) {
+    int k = 0;
+    int i = 0;
+    while(i<*n) {
+	if(*a == NULL){
+	break;
+	}
         int x = (*a)[i];
         if (x < 0) x = -x;
 
@@ -104,21 +105,23 @@ void individ(int **a, int *n)
                 }
             }
         }
-        if (flag)
-            indices[count++] = i;
+        if (flag){
+            b[k]= (*a)[i];
+	    k++;
+	    udalenie(a, n, i);
+	}
+	else{
+	i++;
+	}
     }
 
     printf("Нужная последовательность:\n");
-    if (count == 0) {
+    if (k == 0) {
         printf("(нет подходящих чисел)\n");
     } else {
-        for (int i = 0; i < count; i++)
-            printf("%d ", (*a)[indices[i]]);
+        for (int j = 0; j < k; j++)
+            printf("%d ", b[j]);
         printf("\n");
     }
-
-     for (int i = count - 1; i >= 0; i--)
-        udalenie(a, n, indices[i]);
-
-    free(indices);
+    free(b);
 }

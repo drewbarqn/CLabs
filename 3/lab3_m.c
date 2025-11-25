@@ -3,17 +3,24 @@
 #include "proverk.h"
 #include <stdlib.h>
 
-void menu(int** a, int* n);
+int menu(int** a, int* n);
 
 int main() {
 int n = -1;
 int* a = NULL;
-   menu(&a, &n);
-  free(a);
+int status = menu(&a, &n);
+   if(a!=NULL){
+   free(a);
+   }
+   if (status == -1){
+   printf("\nEOF\n");
+   return 1;
+   }
   return 0;
+
 }
 
-void menu(int** a, int* n) {
+int menu(int** a, int* n) {
   while (1) {
     printf("\nМеню:\n");
     printf("(a) Инициализация массива\n");
@@ -25,9 +32,8 @@ void menu(int** a, int* n) {
 
     char c;
     if(!inputcheck_menu(&c)){
-    printf("\nEOF\n");
     safe_exit(a);
-    return;
+    return -1;
     }
     if (*a == NULL && c != 'a' && *n < 0) {
     if (c != 'q'){ 
@@ -36,7 +42,7 @@ void menu(int** a, int* n) {
     }
     else{
     printf("\nВыход\n");
-    return;
+    return 0;
     }
     }
     switch (c) {
@@ -53,7 +59,7 @@ void menu(int** a, int* n) {
 	 if (!inputcheck_n(n)){ 
 		 printf("\nEOF\n");
 	       safe_exit(a);
-      		return;	       
+      		return -1;	       
 	 } 
 
 	 *a = calloc(*n,sizeof(int));  
@@ -61,7 +67,7 @@ void menu(int** a, int* n) {
 	 if (*a == NULL) {    
 		 printf("Ошибка: не удалось выделить память.\n"); 
 		  *n = 0; 
-		  return;
+		  return 1;
 	 }
 
       printf("Введите элементы массива (целые числа):\n");
@@ -69,9 +75,8 @@ void menu(int** a, int* n) {
       for (int i = 0; i < *n; i++) {
        if (!inputcheck_value(&(*a)[i]))
        {
-	       printf("EOF");
 	       safe_exit(a);
-	       return;
+	       return -1;
        }
       }
       print_a(a, n);
@@ -79,23 +84,25 @@ void menu(int** a, int* n) {
 
     case 'b':
       printf("Введите индекс вставки\n");
-      int f;
+      int f = 0;
       if (!inputcheck_index_i(&f, n))
       {
-      printf("\nEOF\n");      
-      safe_exit(a);
+      return -1;
       }
       vstavka(a, n, f);
       print_a(a, n);
       break;
 
     case 'c': 
+      if (*n == 0){
+      printf("Удаление невозможно\n");
+      break;
+      }
       printf("Введите индекс удаления\n");		      
       int k;
       if (!inputcheck_index_d(&k, n)){
-      printf("\nEOF\n");
       safe_exit(a);
-      return;
+      return -1;
       }
       udalenie(a, n, k);
       print_a(a, n);
@@ -118,7 +125,7 @@ void menu(int** a, int* n) {
     case 'q':
       printf("Выход из программы.\n");
       safe_exit(a);
-      return;
+      return 0;
 
     default:
       printf("Ошибка ввода. Попробуйте снова.\n");
