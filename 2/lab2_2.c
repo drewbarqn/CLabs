@@ -5,14 +5,7 @@ int inputcheckn(int *n);
 int inputcheckx(double *x);
 int main() {
   int n;
-  double x;
-<<<<<<< HEAD
-  inputcheckx(&x);
-  inputcheckn(&n);
-  sh(x, n);
-  double f1 = (expl(x) - expl(-x)) / 2;
-printf("Библиотечное значение: %.*lf\n", 15, f1);
-=======
+  double x;  
   int m = inputcheckx(&x);
   if (m == 0){
   printf("Принудительное завершение\n");
@@ -24,9 +17,11 @@ printf("Библиотечное значение: %.*lf\n", 15, f1);
   return 0;
   }
   sh(x, n);
-  double f1 = (expl(x) - expl(-x)) / 2;
-  printf("Библиотечное значение: %.*lf\n", 15, f1);
->>>>>>> 58e4756 (Сохранение текущих изменений перед pull)
+  double f1 = (exp(x) - exp(-x)) / 2;
+  if (n > 15)                                     
+	  printf("Значение с помощью библиотеки: %.*lf\n", 15, f1);
+  else 
+	  printf("Значение с помощью библиотеки: %.*lf\n", n, f1);  
   return 0;
 }
 int inputcheckn(int *n) {
@@ -75,15 +70,10 @@ double sh(double x, int n) {
     t = next_t;
     s += t;
     i++;
-  }
-<<<<<<< HEAD
-  if (n>15) printf("Значение с помощью ряда: %.*lf\n", 15, s);
-  else printf("Значение с помощью ряда: %.*lf\n", n, s);
-=======
+  } 
   if (n > 15)
     printf("Значение с помощью ряда: %.*lf\n", 15, s);
   else
     printf("Значение с помощью ряда: %.*lf\n", n, s);
->>>>>>> 58e4756 (Сохранение текущих изменений перед pull)
   printf("Количество членов: %d\n", i);
 }
